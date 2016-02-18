@@ -5,6 +5,7 @@ var io = require('socket.io')(http);
 var multer = require('multer');
 var port = process.env.Port || 8080;
 var cycleInterval = 5000;
+var ipAddress;
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, './uploads');
@@ -70,7 +71,14 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook',
 
 
 app.get('/', function (req, res) {
-    res.render('index');
+    if (!ipAddress) {
+        require('dns').lookup(require('os').hostname(), function (err, add, fam) {
+            ipAddress = add;
+            res.render('index',{ip: ipAddress, port: port});
+        })
+    } else {
+        res.render('index',{ip: ipAddress, port: port});   
+    }
 });
 
 app.get('/upload', isLoggedIn, function (req, res) {
@@ -121,11 +129,11 @@ app.post('/api/photo', isLoggedIn, function (req, res) {
             message = encodeURIComponent('No file specified');
             error = true;
         }
-        
+
         if (error) {
             cleanupPhotos.deletePhoto(req.file.filename);
             return res.redirect('/upload?message=' + message + '&error=' + error);
-        } else if(err) {
+        } else if (err) {
             return res.redirect('/upload?message=Unexpected error while uploading photo&error=' + error);
         } else {
             captions.push({
