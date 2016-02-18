@@ -9,7 +9,7 @@
         <form id="uploadForm" enctype="multipart/form-data" action="/api/photo" method="post" class="form-group">
             <fieldset class="form-group">
                 <label for="userPhoto">Select a photo to upload</label>
-                <input type="file" name="userPhoto" class="form-control" placeholder="Select a photo to upload" />
+                <input type="file" accept="image/*" name="userPhoto" class="form-control" placeholder="Select a photo to upload" />
                 <hr />
                 <label for="userCaption">Enter a caption for the photo</label>
                 <input type="text" name="userCaption" class="form-control" placeholder="Enter a caption for the photo" />

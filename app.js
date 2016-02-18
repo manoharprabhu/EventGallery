@@ -3,7 +3,8 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var multer = require('multer');
-
+var port = process.env.Port || 8080;
+var cycleInterval = 5000;
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, './uploads');
@@ -13,11 +14,18 @@ var storage = multer.diskStorage({
         callback(null, fileName);
     }
 });
-var upload = multer({ storage: storage }).single('userPhoto');
+var upload = multer({
+    storage: storage
+}).single('userPhoto');
+
 var captions = [];
 var currentPhoto = 0;
 var timer;
-require('./cleanup').cleanUploadsFolder();
+var cleanupPhotos = require('./cleanup');
+cleanupPhotos
+    .createUploadsIfNotExists()
+    .cleanUploadsFolder();
+
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
@@ -98,16 +106,30 @@ app.get('/nextphoto', function (req, res) {
 
 app.post('/api/photo', isLoggedIn, function (req, res) {
     upload(req, res, function (err) {
-        if (err || !req.file) {
-            var message = encodeURIComponent('Error while uploading the file. Please try again.');
-            return res.redirect('/upload?message=' + message + '&error=true');
+        var message = "Image uploaded successfully";
+        var error = false;
+        if (req.file) {
+            if (req.file.mimetype !== 'image/png' && req.file.mimetype !== 'image/jpg' && req.file.mimetype !== 'image/jpeg') {
+                message = "Please upload an image file";
+                error = true;
+            }
+            if (req.file.size > 4000000) {
+                message = "Image should be smaller than 4MB";
+                error = true;
+            }
+            cleanupPhotos.deletePhoto(req.file.filename);
+        } else {
+            message = encodeURIComponent('No file specified');
+            error = true;
+        }
+        if (err || error) {
+            return res.redirect('/upload?message=' + message + '&error=' + error);
         } else {
             captions.push({
                 'caption': req.body.userCaption,
                 'filename': req.file.filename,
                 'uploadedby': req.user.displayName
             });
-            var message = encodeURIComponent('File uploaded successfully');
             return res.redirect('/upload?message=' + message);
         }
     });
@@ -121,15 +143,15 @@ function isLoggedIn(req, res, next) {
 }
 
 
-http.listen(8080, function(){
+http.listen(port, function () {
     console.log('server started at port ' + 8080);
     timer = setInterval(function () {
         if (captions.length !== 0) {
             currentPhoto = (currentPhoto + 1) % captions.length;
             io.emit('photo', JSON.stringify(captions[currentPhoto]));
         }
-        
-    }, 5000);
+
+    }, cycleInterval);
 });
 
 
