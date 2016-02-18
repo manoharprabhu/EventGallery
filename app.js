@@ -117,12 +117,12 @@ app.post('/api/photo', isLoggedIn, function (req, res) {
                 message = "Image should be smaller than 4MB";
                 error = true;
             }
-            cleanupPhotos.deletePhoto(req.file.filename);
         } else {
             message = encodeURIComponent('No file specified');
             error = true;
         }
         if (err || error) {
+            cleanupPhotos.deletePhoto(req.file.filename);
             return res.redirect('/upload?message=' + message + '&error=' + error);
         } else {
             captions.push({
