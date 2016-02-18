@@ -1,0 +1,34 @@
+<html>
+
+<head>
+    <% include scripts.ejs %>
+</head>
+
+<body>
+    <div class="upload-modal">
+        <form id="uploadForm" enctype="multipart/form-data" action="/api/photo" method="post" class="form-group">
+            <fieldset class="form-group">
+                <label for="userPhoto">Select a photo to upload</label>
+                <input type="file" name="userPhoto" class="form-control" placeholder="Select a photo to upload" />
+                <hr />
+                <label for="userCaption">Enter a caption for the photo</label>
+                <input type="text" name="userCaption" class="form-control" placeholder="Enter a caption for the photo" />
+                <hr />
+                <small class="text-muted">Warning: Once uploaded, this image will be displayed on the dashboard. Contact the event organizer if you want to delete the photo.</small>
+                <hr />
+                <button type="submit" name="submit" class="btn btn-violet">Upload</button>
+            </fieldset>
+            <% if(message) { %>
+                <fieldset>
+                    <% if(error) { %>
+                        <div class="alert alert-danger"><%= message %></div>
+                    <% } else { %>
+                        <div class="alert alert-success"><%= message %></div>
+                    <% } %>
+                </fieldset>
+            <% } %>
+        </form>
+    </div>
+</body>
+
+</html>
