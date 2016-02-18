@@ -121,9 +121,12 @@ app.post('/api/photo', isLoggedIn, function (req, res) {
             message = encodeURIComponent('No file specified');
             error = true;
         }
-        if (err || error) {
+        
+        if (error) {
             cleanupPhotos.deletePhoto(req.file.filename);
             return res.redirect('/upload?message=' + message + '&error=' + error);
+        } else if(err) {
+            return res.redirect('/upload?message=Unexpected error while uploading photo&error=' + error);
         } else {
             captions.push({
                 'caption': req.body.userCaption,
