@@ -49,13 +49,14 @@
     margin-top: 40px;
 }
 
-.sidebar {
+#sidebar {
     position: absolute;
-    width: 300px;
+    width: 20%;
     top: 0;
     left:0;
     height: 100%;
     background-color: blueviolet;
+    padding: 20px;
 }
 
 .gallery {
@@ -70,22 +71,23 @@
 }
 
 #imagetorep {
-    max-height: 100%;
-    max-width: 100%;
+    display: block;
+    margin:  auto;
+    border: 1px solid blueviolet;
+    border-radius: 4px;
+    margin-top: 20px;
+    max-width: 90%;
+    max-height: 90%;
 }
 
 #placeholder {
-    position: absolute;
     width: 100%;
-    height: 200px;
-    margin-top: -100px;
-    padding: 30px;
-    font-size: 2.0em;
     background-color: blueviolet;
     color: #FFFFFF;
     font-weight: bold;
-    top:50%;
     text-align: center;
+    margin-top: 20px;
+    font-size: 0.7em;
 }
  .gallerywrapper {
      background-color: #454545;
@@ -94,28 +96,43 @@
  }
  
  #photocaption {
-     position: absolute;
      width: 100%;
-     height: 100px;
-     top: 100%;
-     left:0;
-     margin-top: -100px;
      background-color: rgba(138,43,226,0.8);;
      color:#FFFFFF;
      z-index: 1000;
      display: none;
+     border: 1px solid #FFFFFF;
+     border-radius: 8px;
+     padding: 20px;
  }
  
  #photocaption .caption {
-     width:100%;
-     font-size: 1.3em;
+     width:90%;
+     margin: 10px auto;
+     font-size: 1.5em;
      text-align: center;
-     padding-top: 20px;
  }
  
  #photocaption .name {
      width: 100%;
      text-align: right;
-     padding-right: 100px;
+     padding-right: 5px;
      padding-top: 20px;
+     font-size: 0.9em;
+     text-decoration: underline;
+     font-weight: bold;
+ }
+ 
+ #photocaption .name::before {
+     content: '- '
+ }
+ 
+ 
+ .maincontent {
+     position: absolute;
+     top: 0;
+     left: 20%;
+     width: 80%;
+     height: 100%;
+     background-color: #454545;
  }
