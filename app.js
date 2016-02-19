@@ -9,11 +9,12 @@ var cleanupPhotos = require('./cleanup');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var passport = require('passport');
+var config = require('./config');
 app.set('view engine', 'ejs');
 app.use(cookieParser());
 app.use(bodyParser());
-var passport = require('passport');
-app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+app.use(session({ secret: 'mysessionsecretishere' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/css', express.static('css'));
@@ -26,21 +27,15 @@ passport.deserializeUser(authenticate.deserializeUser);
 authenticate.registerCallbacks(app, passport);
 
 var timer;
-var port = process.env.Port || 8080;
+var port = config.configurations.port;
 var cycleInterval = 5000;
-var ipAddress;
+var ipAddress = config.configurations.ipAddress;
+var host = config.configurations.hostname;
 
 cleanupPhotos.createUploadsIfNotExists().cleanUploadsFolder();
 
 app.get('/', function (req, res) {
-    if (!ipAddress) {
-        require('dns').lookup(require('os').hostname(), function (err, add, fam) {
-            ipAddress = add;
-            res.render('index', { ip: ipAddress, port: port });
-        })
-    } else {
-        res.render('index', { ip: ipAddress, port: port });
-    }
+        res.render('index', { ip: host, port: port });
 });
 
 app.get('/upload', authenticate.isLoggedIn, function (req, res) {
@@ -66,7 +61,7 @@ app.post('/api/photo', authenticate.isLoggedIn, function (req, res) {
     uploadHelper.uploadImage(req, res);
 });
 
-http.listen(port, function () {
+http.listen(port, ipAddress, function () {
     console.log('server started at port ' + port);
     timer = uploadHelper.startTimer(io, cycleInterval);
 });

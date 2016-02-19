@@ -1,10 +1,11 @@
+var config = require('./config');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
 var getFacebookStrategy = function () {
     return new FacebookStrategy({
-        clientID: '1002595339779964',
-        clientSecret: '18742cedfc725c7dada96801457a5c97',
-        callbackURL: "http://localhost:8080/auth/facebook/callback",
+        clientID: config.configurations.facebook.clientId,
+        clientSecret: config.configurations.facebook.clientSecret,
+        callbackURL: config.getFacebookCallbackUrl(),
         profileFields: ['email', 'displayName']
     },
         function (accessToken, refreshToken, profile, done) {
