@@ -1,6 +1,8 @@
+<!DOCTYPE html>
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <% include scripts.ejs %>
 </head>
 
@@ -21,12 +23,16 @@
             <% if(message) { %>
                 <fieldset>
                     <% if(error) { %>
-                        <div class="alert alert-danger"><%= message %></div>
-                    <% } else { %>
-                        <div class="alert alert-success"><%= message %></div>
-                    <% } %>
+                        <div class="alert alert-danger">
+                            <%= message %>
+                        </div>
+                        <% } else { %>
+                            <div class="alert alert-success">
+                                <%= message %>
+                            </div>
+                            <% } %>
                 </fieldset>
-            <% } %>
+                <% } %>
         </form>
     </div>
 </body>
