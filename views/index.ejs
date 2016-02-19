@@ -12,7 +12,7 @@
             <img src="" id="imagetorep" />
         </div>
         <div id="placeholder">Go to
-            <br />http://<%= ip %>:<%= port %>/login</br>and upload some images to start the gallery</div>
+            <br />http://<%= ip %><% if(isOpenshift){ %><% } else { %>:<%= port %><% } %>/login</br>and upload some images to start the gallery</div>
          <div id="photocaption">
              <div class="caption">This is my caption. This is my caption. This is my caption. This is my caption. This is my caption. This is my caption. </div>
              <div class="name">Manohar Prabhu</div>

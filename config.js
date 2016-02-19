@@ -9,11 +9,21 @@ var config = {
     ipAddress: process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 }
 
+var isOpenshift = function () {
+    return !(process.env.OPENSHIFT_NODEJS_PORT === undefined)
+}
+
 var getFacebookCallbackUrl = function () {
-    return "http://" + config.hostname + ":" + config.port + "/auth/facebook/callback";
+    //Openshift app runs on 8080, but maps to to port 80
+    if (isOpenshift) {
+        return "http://" + config.hostname + "/auth/facebook/callback";
+    } else {
+        return "http://" + config.hostname + ":" + config.port + "/auth/facebook/callback";
+    }
 }
 
 module.exports = {
     configurations: config,
-    getFacebookCallbackUrl: getFacebookCallbackUrl
+    getFacebookCallbackUrl: getFacebookCallbackUrl,
+    isOpenshift: isOpenshift
 }

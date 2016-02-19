@@ -35,7 +35,7 @@ var host = config.configurations.hostname;
 cleanupPhotos.createUploadsIfNotExists().cleanUploadsFolder();
 
 app.get('/', function (req, res) {
-        res.render('index', { ip: host, port: port });
+    res.render('index', { ip: host, port: port, isOpenshift: config.isOpenshift() });
 });
 
 app.get('/upload', authenticate.isLoggedIn, function (req, res) {
