@@ -13,6 +13,9 @@
                     .getElementsByClassName('caption')[0].innerText = data.caption;
             document.getElementById('photocaption')
                     .getElementsByClassName('name')[0].innerText = data.uploadedby;
+            document.getElementById('photocaption')
+                    .getElementsByClassName('profilephoto')[0].src = data.photo;
+                    
         }
     });
 

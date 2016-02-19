@@ -6,7 +6,7 @@ var getFacebookStrategy = function () {
         clientID: config.configurations.facebook.clientId,
         clientSecret: config.configurations.facebook.clientSecret,
         callbackURL: config.getFacebookCallbackUrl(),
-        profileFields: ['email', 'displayName']
+        profileFields: ['email', 'displayName','picture']
     },
         function (accessToken, refreshToken, profile, done) {
             process.nextTick(function () {

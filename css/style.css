@@ -73,8 +73,6 @@
 #imagetorep {
     display: block;
     margin:  auto;
-    border: 1px solid blueviolet;
-    border-radius: 4px;
     margin-top: 20px;
     max-width: 90%;
     max-height: 90%;
@@ -125,6 +123,12 @@
  
  #photocaption .name::before {
      content: '- '
+ }
+ 
+ #photocaption .profilephoto {
+     max-width: 150px;
+     max-height: 150px;
+     border-radius: 50%;
  }
  
  

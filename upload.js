@@ -42,7 +42,8 @@ var uploadImage = function (req, res) {
             captions.push({
                 'caption': req.body.userCaption,
                 'filename': req.file.filename,
-                'uploadedby': req.user.displayName
+                'uploadedby': req.user.displayName,
+                'photo': req.user.photos[0].value
             });
             return res.redirect('/upload?message=' + message);
         }
@@ -64,13 +65,15 @@ var getNextPhoto = function (res) {
         res.json({
             src: null,
             caption: null,
-            uploadedby: null
+            uploadedby: null,
+            photo: null
         });
     } else {
         res.json({
             src: 'uploads/' + captions[currentPhoto].filename,
             caption: captions[currentPhoto].caption,
-            uploadedby: captions[currentPhoto].uploadedby
+            uploadedby: captions[currentPhoto].uploadedby,
+            photo: captions[currentPhoto].photo
         });
     }
 }
