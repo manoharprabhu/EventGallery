@@ -57,6 +57,10 @@ app.get('/nextphoto', function (req, res) {
     uploadHelper.getNextPhoto(res);
 });
 
+app.get('/admin',authenticate.basicAdminAuth, function (req, res) {
+    //TODO: Render the admin page
+});
+
 app.post('/api/photo', authenticate.isLoggedIn, function (req, res) {
     uploadHelper.uploadImage(req, res);
 });

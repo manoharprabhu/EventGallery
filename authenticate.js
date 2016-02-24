@@ -1,4 +1,5 @@
 var config = require('./config');
+var auth = require('basic-auth');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
 var getFacebookStrategy = function () {
@@ -35,11 +36,23 @@ var isLoggedIn = function(req, res, next) {
     res.redirect('/login');
 }
 
+var basicAdminAuth = function(req, res, next) {
+    var credentials = auth(req)
+    if (!credentials || credentials.name !== config.configurations.adminUser || credentials.pass !== config.configurations.adminPassword) {
+        res.statusCode = 401
+        res.setHeader('WWW-Authenticate', 'Basic realm="example"')
+        res.end('Access denied')
+    } else {
+        return next();
+    }
+} 
+
 module.exports = {
     getFacebookStrategy: getFacebookStrategy,
     serializeUser: serializeUser,
     deserializeUser: deserializeUser,
     registerCallbacks: registerCallbacks,
-    isLoggedIn: isLoggedIn
+    isLoggedIn: isLoggedIn,
+    basicAdminAuth: basicAdminAuth
 }
 

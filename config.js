@@ -6,7 +6,9 @@ var config = {
     //hostname: 'nodejs-tracker1990.rhcloud.com',
     hostname: 'localhost',
     port: process.env.OPENSHIFT_NODEJS_PORT || 8080,
-    ipAddress: process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
+    ipAddress: process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1',
+    adminUser: 'username',
+    adminPassword: 'password'
 }
 
 var isOpenshift = function () {
