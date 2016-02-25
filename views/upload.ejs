@@ -8,17 +8,18 @@
 
 <body>
     <div class="upload-modal">
+        <div class="title"><i class="fa fa-cloud-upload"></i> Upload</div>
         <form id="uploadForm" enctype="multipart/form-data" action="/api/photo" method="post" class="form-group">
             <fieldset class="form-group">
-                <label for="userPhoto">Select a photo to upload</label>
+                <label for="userPhoto"><i class="fa fa-photo"></i> Select a photo to upload</label>
                 <input type="file" accept="image/*" name="userPhoto" class="form-control" placeholder="Select a photo to upload" />
                 <hr />
-                <label for="userCaption">Enter a caption for the photo</label>
-                <input type="text" name="userCaption" class="form-control" placeholder="Enter a caption for the photo" />
+                <label for="userCaption"><i class="fa fa-pencil"></i> Enter a caption for the photo</label>
+                <textarea rows="3"  name="userCaption" class="form-control" placeholder="Enter a caption for the photo"></textarea>
                 <hr />
-                <small class="text-muted">Warning: Once uploaded, this image will be displayed on the dashboard. Contact the event organizer if you want to delete the photo.</small>
+                <small class="text-danger text-muted">Warning: Once uploaded, this image will be displayed on the dashboard. Contact the event organizer if you want to delete the photo.</small>
                 <hr />
-                <button type="submit" name="submit" class="btn btn-violet">Upload</button>
+                <button type="submit" name="submit" class="btn btn-violet"><i class="fa fa-cloud-upload"></i> Upload</button>
             </fieldset>
             <% if(message) { %>
                 <fieldset>
